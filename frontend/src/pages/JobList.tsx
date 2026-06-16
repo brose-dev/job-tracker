@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Job, Status } from "../types/job";
 import { getJobs, deleteJob } from "../api/jobs";
+import { useNavigate } from "react-router-dom";
 
 const STATUS_LABELS: Record<Status, string> = {
     monitoring: 'Monitoring',
@@ -33,6 +34,8 @@ export default function JobList() {
         await deleteJob(id);
         setJobs(jobs.filter((j) => j.id !== id));
     };
+
+    const navigate = useNavigate();
 
     if(loading) return <p>Loading...</p>;
 
@@ -68,7 +71,9 @@ export default function JobList() {
                 <tbody>
                     {filtered.map((job) => (
                         <tr key={job.id}>
-                            <td>{job.company}</td>
+                            <td style={{ cursor: 'pointer' }} onClick={() => navigate(`/jobs/${job.id}`)}>
+                                {job.company}
+                            </td>
                             <td>{job.title}</td>
                             <td>{STATUS_LABELS[job.status]}</td>
                             <td>{job.fit_score ? `${job.fit_score}%` : '—'}</td>
