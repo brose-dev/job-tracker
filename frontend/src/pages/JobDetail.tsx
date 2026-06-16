@@ -30,6 +30,7 @@ export default function JobDetail() {
   return (
     <div>
       <h1>{job.title}</h1>
+      <button onClick={() => navigate(`/jobs/${id}/edit`)} style={{ marginRight: '8px' }}>Edit</button>
       <h2 style={{ color: '#555', fontWeight: 'normal' }}>{job.company}</h2>
 
       <table style={{ width: 'auto', marginBottom: '24px' }}>
@@ -38,8 +39,8 @@ export default function JobDetail() {
           <tr><th>Fit Score</th><td>{job.fit_score ? `${job.fit_score}%` : '—'}</td></tr>
           <tr><th>Location</th><td>{job.location} ({job.remote_type})</td></tr>
           <tr><th>Salary</th><td>
-            {job.salary_min && job.salary_max
-              ? `$${Math.round(job.salary_min / 1000)}k – $${Math.round(job.salary_max / 1000)}k`
+            {job.salary_min || job.salary_max
+              ? `$${job.salary_min ? Math.round(job.salary_min / 1000) : '?'}k – $${job.salary_max ? Math.round(job.salary_max / 1000) : '?'}k`
               : 'Not listed'}
           </td></tr>
           <tr><th>Date Added</th><td>{job.date_added}</td></tr>
